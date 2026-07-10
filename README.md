@@ -49,20 +49,22 @@ Proje, modern yapay zeka mühendisliği standartlarına uygun olarak şu veri i�
    pip install fastapi uvicorn langchain chromaDB pypdf
 
 Arka plan servisini başlatın:
-
-Bash
+```bash
 uvicorn backend.main:app --reload
+```
 2. Arayüz (Frontend) Kurulumu
 Yeni bir terminal sekmesi açın ve frontend klasörüne geçiş yapın:
 
-Bash
+```bash
 cd frontend
+```
 Gerekli Node.js paketlerini yükleyin:
 
-Bash
+```bash
 npm install
+```
 Arayüz uygulamasını canlı geliştirme modunda başlatın:
-
-Bash
+```bash
 npm run dev
+```
 💡 Bu proje; büyük dil modellerinin (LLM) kurumsal veya özel dokümanlarla özelleştirilmesi, vektör veritabanı optimizasyonları ve uçtan uca AI tabanlı web uygulamaları geliştirme süreçlerini deneyimlemek amacıyla modellenmiştir.
