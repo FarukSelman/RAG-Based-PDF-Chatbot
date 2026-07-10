@@ -1,70 +1,237 @@
 # 🤖 RAG-Based PDF Chatbot Assistant
 
-Bu proje; kullanıcıların sisteme yükledikleri PDF dokümanlarını anlamsal olarak analiz eden ve doküman içeriği hakkında bağlam farkındalığına sahip (**context-aware**) yanıtlar üreten uçtan uca (**Full-Stack**) bir **Retrieval-Augmented Generation (RAG)** asistanıdır. Gelişmiş vektör arama mimarisi sayesinde yapay zeka modelinin halüsinasyon görmesini engeller ve doğrudan dokümandaki verilere sadık kalır.
+Bu proje, kullanıcıların yüklediği PDF dokümanlarını analiz ederek içerikleri hakkında doğal dilde sorular sorabilmelerini sağlayan **Retrieval-Augmented Generation (RAG)** tabanlı bir yapay zekâ asistanıdır. Sistem, vektör tabanlı benzerlik araması sayesinde yalnızca yüklenen dokümandaki ilgili içerikleri kullanarak bağlam farkındalığı yüksek yanıtlar üretir ve büyük dil modellerinin (LLM) halüsinasyon üretme olasılığını azaltmayı hedefler.
 
 ---
 
-## 🖥️ Uygulama Arayüzü (UI)
+# 🖥️ Uygulama Arayüzü
 
+> Proje ekran görüntüsünü aşağıdaki dosya adıyla ekleyebilirsiniz.
+
+```text
+assets/
+└── application_screenshot.png
+```
+
+Markdown kullanımı:
+
+```markdown
 <p align="center">
-  <img src="uygulama_ekran_goruntusu.png" alt="Uygulama Arayüzü" width="90%" />
+  <img src="assets/application_screenshot.png" width="90%" alt="Application Screenshot">
 </p>
+```
 
 ---
 
-## 🏗️ Sistem Mimarisi ve RAG Veri Akışı
-Proje, modern yapay zeka mühendisliği standartlarına uygun olarak şu veri işleme hattını (Pipeline) işletmektedir:
+# 🏗️ RAG Pipeline
 
-1. **Document Ingestion (Veri Girişi):** Kullanıcı arayüz üzerinden PDF dosyasını yükler. Backend mimarisi metni parse eder.
-2. **Text Chunking (Metin Parçalama):** Ayıklanan uzun metinler, anlamsal bütünlüğü korumak amacıyla belirli karakter sınırlarında küçük parçalara (chunks) ayrılır.
-3. **Vector Embeddings (Vektör Dönüşümü):** Her bir metin parçası, anlamsal vektör uzayına taşınmak üzere yüksek boyutlu vektörlere dönüştürülür.
-4. **Vector Database (Vektör Depolama):** Üretilen vektörler, hızlı benzerlik araması (Similarity Search) yapılabilmesi için bir Vektör Veri Tabanında indekslenir.
-5. **Retrieval & Generation (Sorgu ve Yanıt):** Kullanıcı chatbot'a soru sorduğunda, sorunun vektörü ile veri tabanındaki metin vektörleri arasında benzerlik araması yapılır. En ilgili bağlam (context) ayıklanarak LLM'e gönderilir ve kesin, doğru bir yanıt üretilir.
+Uygulama, klasik Retrieval-Augmented Generation mimarisini temel alan aşağıdaki veri akışını kullanmaktadır.
 
----
+## 1. PDF Yükleme
 
-## 🛠️ Kullanılan Teknolojiler ve Framework'ler
-
-### Backend & AI Ekosistemi
-- **Python 3.x**
-- **LangChain / LlamaIndex** (RAG Orkestrasyonu ve Pipeline Yönetimi)
-- **FastAPI / Flask** (Asenkron REST API Servisleri)
-- **Vector DB:** ChromaDB / FAISS / Pinecone
-- **LLM & Embeddings:** OpenAI GPT / HuggingFace / Ollama
-
-### Frontend
-- **HTML5, CSS3, JavaScript** (React / Vite Framework)
-- **Fetch API / Axios** (Asenkron API haberleşmesi ve gerçek zamanlı Log akışı yönetimi)
+Kullanıcı arayüz üzerinden PDF dosyasını sisteme yükler.
 
 ---
 
-## 🔧 Kurulum ve Çalıştırma
+## 2. Metin Ayrıştırma
 
-### 1. Arka Plan (Backend) Kurulumu
-1. Terminalde projenin ana dizinindeyken sanal ortamı aktif edin:
-   * **Windows:** `.\venv\Scripts\activate`
-   * **Mac/Linux:** `source venv/bin/activate`
-2. Gerekli kütüphaneleri kontrol edin/yükleyin:
-   ```bash
-   pip install fastapi uvicorn langchain chromaDB pypdf
+PDF içerisindeki metinler ayrıştırılır ve işlenebilir hale getirilir.
 
-Arka plan servisini başlatın:
+---
+
+## 3. Text Chunking
+
+Uzun metinler anlamsal bütünlüğü koruyacak şekilde küçük parçalara (chunks) ayrılır.
+
+---
+
+## 4. Embedding Oluşturma
+
+Her metin parçası embedding modeli kullanılarak yüksek boyutlu vektörlere dönüştürülür.
+
+---
+
+## 5. Vector Database
+
+Oluşturulan embedding'ler vektör veritabanına kaydedilir.
+
+Desteklenebilecek veritabanları:
+
+- ChromaDB
+- FAISS
+- Pinecone
+
+---
+
+## 6. Similarity Search
+
+Kullanıcının sorusu da embedding'e dönüştürülür ve vektör veritabanında benzerlik araması gerçekleştirilir.
+
+---
+
+## 7. Response Generation
+
+Bulunan en alakalı içerikler büyük dil modeline (LLM) gönderilir ve yalnızca ilgili bağlam kullanılarak cevap oluşturulur.
+
+---
+
+# 🛠️ Kullanılan Teknolojiler
+
+## Backend
+
+- Python 3.x
+- FastAPI
+- LangChain
+- LlamaIndex
+
+## Vector Database
+
+- ChromaDB
+- FAISS
+- Pinecone
+
+## Large Language Models
+
+- OpenAI GPT
+- Hugging Face Models
+- Ollama
+
+## Frontend
+
+- React
+- Vite
+- HTML5
+- CSS3
+- JavaScript
+
+## API
+
+- REST API
+- Fetch API
+- Axios
+
+---
+
+# 🏗️ Proje Yapısı
+
+```text
+RAG-PDF-Chatbot/
+│
+├── backend/
+│   ├── main.py
+│   └── ...
+│
+├── frontend/
+│   ├── src/
+│   └── ...
+│
+├── assets/
+│   └── application_screenshot.png
+│
+└── README.md
+```
+
+---
+
+# 🔧 Kurulum
+
+## 1. Repoyu Klonlayın
+
+```bash
+git clone https://github.com/FarukSelman/RAG-PDF-Chatbot.git
+```
+
+## 2. Proje Klasörüne Girin
+
+```bash
+cd RAG-PDF-Chatbot
+```
+
+---
+
+# 🐍 Backend Kurulumu
+
+## Sanal Ortamı Aktifleştirin
+
+### Windows
+
+```bash
+.\venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+## Gerekli Kütüphaneleri Kurun
+
+```bash
+pip install fastapi uvicorn langchain chromadb faiss-cpu pypdf openai
+```
+
+## Backend'i Başlatın
+
 ```bash
 uvicorn backend.main:app --reload
 ```
-2. Arayüz (Frontend) Kurulumu
-Yeni bir terminal sekmesi açın ve frontend klasörüne geçiş yapın:
+
+---
+
+# ⚛️ Frontend Kurulumu
+
+Frontend klasörüne geçin.
 
 ```bash
 cd frontend
 ```
-Gerekli Node.js paketlerini yükleyin:
+
+Bağımlılıkları yükleyin.
 
 ```bash
 npm install
 ```
-Arayüz uygulamasını canlı geliştirme modunda başlatın:
+
+Uygulamayı başlatın.
+
 ```bash
 npm run dev
 ```
-💡 Bu proje; büyük dil modellerinin (LLM) kurumsal veya özel dokümanlarla özelleştirilmesi, vektör veritabanı optimizasyonları ve uçtan uca AI tabanlı web uygulamaları geliştirme süreçlerini deneyimlemek amacıyla modellenmiştir.
+
+---
+
+# 📈 Uygulama Akışı
+
+1. Kullanıcı PDF yükler.
+2. PDF metni ayrıştırılır.
+3. Metin küçük parçalara bölünür.
+4. Embedding'ler oluşturulur.
+5. Embedding'ler vektör veritabanına kaydedilir.
+6. Kullanıcının sorusu embedding'e dönüştürülür.
+7. Similarity Search yapılır.
+8. En ilgili içerikler LLM'e gönderilir.
+9. Yapay zekâ bağlama uygun cevabı üretir.
+
+---
+
+# 💡 Projenin Amacı
+
+Bu çalışma;
+
+- Retrieval-Augmented Generation (RAG) mimarisini uygulamak,
+- PDF tabanlı soru-cevap sistemleri geliştirmek,
+- Büyük dil modellerini özel dokümanlarla entegre etmek,
+- Vektör veritabanlarının kullanımını öğrenmek,
+- Embedding ve Similarity Search süreçlerini deneyimlemek,
+- FastAPI ve React kullanarak uçtan uca yapay zekâ uygulamaları geliştirmek
+
+amacıyla hazırlanmıştır.
+
+---
+
+# 👨‍💻 Geliştirici
+
+**Faruk Selman**
+
+GitHub: https://github.com/FarukSelman
