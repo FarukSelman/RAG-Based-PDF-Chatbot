@@ -43,6 +43,9 @@ Proje, modern yapay zeka mühendisliği standartlarına uygun olarak şu veri i�
 
 ### 1. Arka Plan (Backend) Kurulumu
 ```bash
-cd backend
-pip install -r requirements.txt
-python app.py
+uvicorn backend.main:app --reload
+
+### 2. Arayüz (Frontend) Kurulumu
+```bash
+npm run dev
+
