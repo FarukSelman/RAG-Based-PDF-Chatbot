@@ -38,7 +38,6 @@ Proje, modern yapay zeka mühendisliği standartlarına uygun olarak şu veri i�
 - **HTML5, CSS3, JavaScript** - **Fetch API / Axios** (Asenkron API haberleşmesi ve gerçek zamanlı Log akışı yönetimi)
 
 ---
-
 ## 🔧 Kurulum ve Çalıştırma
 
 ### 1. Arka Plan (Backend) Kurulumu
